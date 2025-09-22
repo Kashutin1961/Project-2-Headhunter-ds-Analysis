@@ -1,31 +1,33 @@
-# 📊 Project 2: Анализ вакансий из HeadHunter
+# 📊 Проект 2: Анализ вакансий HeadHunter
 
-This project is part of the SkillFactory Data Science course and focuses on analyzing job postings for Data Science roles from HeadHunter. It includes SQL queries, Python data processing, and environment setup for reproducibility.
-
----
-
-## 📁 Project Structure
-
-- `PROJECT_2_ Анализ_вакансий_из_HeadHunter.ipynb` — main notebook with analysis  
-- `PROJECT_2_ Анализ_вакансий_из_HeadHunter_Test.ipynb` — test notebook  
-- `Python_and_SQL.ipynb` — SQL queries executed via Python  
-- `Python_and_SQL_Commented.ipynb` — annotated version of SQL logic  
-- `SQL_uppercase_diff.txt` — SQL formatting comparison  
-- `environment.yml` — Conda environment file for reproducibility
+Этот проект является частью **курса SkillFactory по Data Science** и посвящён анализу вакансий в области Data Science с сайта HeadHunter.  
+Репозиторий включает SQL-запросы, обработку данных на Python и настройку среды для воспроизводимости результатов.
 
 ---
 
-## 🧪 Environment Setup
+## 📁 Структура проекта
 
-This project uses a Conda environment named `Conda_SkillsFactory`, which includes all necessary libraries for data analysis, PostgreSQL integration, and web scraping.
+- **PROJECT_2_Анализ_вакансий_из_HeadHunter.ipynb** — основной ноутбук с анализом  
+- **PROJECT_2_Анализ_вакансий_из_HeadHunter_Test.ipynb** — тестовый ноутбук  
+- **Python_and_SQL.ipynb** — SQL-запросы, выполняемые через Python  
+- **Python_and_SQL_Commented.ipynb** — прокомментированная версия SQL-логики  
+- **SQL_uppercase_diff.txt** — сравнение форматирования SQL-запросов  
+- **environment.yml** — файл среды Conda для воспроизводимости  
 
-To recreate the environment:
+---
+
+## 🧪 Настройка окружения
+
+Проект использует **Conda-окружение** под названием `Conda_SkillsFactory`.  
+Оно включает необходимые библиотеки для анализа данных, интеграции с PostgreSQL и визуализации.  
+
+Создание окружения:
 
 ```bash
 conda env create -f environment.yml
 ```
 
-To activate the environment:
+Активация окружения:
 
 ```bash
 conda activate Conda_SkillsFactory
@@ -33,14 +35,53 @@ conda activate Conda_SkillsFactory
 
 ---
 
-## 🚀 Getting Started
+## 📦 Основные пакеты
 
-1. Clone the repository or download the project files.
-2. Set up the Conda environment as described above.
-3. Open the main notebook and follow the analysis steps.
+Ниже приведены ключевые пакеты, указанные в `environment.yml`:  
+
+- **Численные вычисления**: numpy, scipy, bottleneck, numexpr, mkl  
+- **Обработка данных**: pandas  
+- **Визуализация**: matplotlib-base, contourpy, cycler, fonttools  
+- **Утилиты**: setuptools, wheel, six, typing-extensions, sortedcontainers, xmltodict  
+- **Системные библиотеки и сжатие**: bzip2, brotli-python, zlib  
+
+Полный список пакетов доступен в файле [`environment.yml`](./environment.yml).  
+Используются каналы `anaconda` и `defaults`.
 
 ---
 
-## 📬 Feedback
+## 🚀 Начало работы
 
-For questions or suggestions, please open an issue or contact the project author.
+1. Склонируйте репозиторий или загрузите файлы проекта.  
+2. Настройте Conda-окружение, как описано выше.  
+3. Откройте основной ноутбук и следуйте шагам анализа.  
+
+---
+
+## ✨ Основные возможности
+
+- SQL-фильтрация и агрегация вакансий  
+- Логика на Python для нормализации зарплат и подсчёта навыков  
+- Воспроизводимость среды через Conda (`environment.yml`)  
+- Подробные комментарии и форматирование SQL-запросов в верхнем регистре для читаемости  
+- Интеграция с VS Code Copilot Agent для упрощения редактирования и аннотации  
+
+---
+
+## 🛠 Заметки по разработке
+
+- Среда экспортирована с помощью:  
+
+  ```bash
+  conda env export > environment.yml
+  ```
+
+- Совместимость с **Python 3.13**  
+- Тестировалось в окружении `Conda_SkillsFactory`  
+- Источники данных — симулированные или выгруженные с HeadHunter через SQL-запросы  
+
+---
+
+## 📬 Обратная связь
+
+Для вопросов, предложений или улучшений создайте **Issue** или свяжитесь с автором проекта.  
