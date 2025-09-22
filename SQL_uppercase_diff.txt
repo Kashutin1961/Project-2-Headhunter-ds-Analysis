@@ -1,0 +1,581 @@
+Diff: SQL keyword capitalization changes in `Python_and_SQL.ipynb`
+
+Notes:
+- OLD shows the query fragment with SQL keywords in lowercase (reconstructed by lowercasing SQL keywords in the final content).
+- NEW shows the exact updated fragment currently in the notebook (SQL keywords in UPPERCASE).
+- Only SQL keyword capitalization was changed; identifiers, strings, f-string placeholders and logic were preserved.
+
+--- query5_2 ---
+OLD:
+query5_2 = f'''
+    select a.name as area_name,
+           count(e.id) as employer_count,
+           count(v.id) as vacancy_count
+    from public.areas a
+    left join public.employers e on a.id = e.area
+    left join public.vacancies v on a.id = v.area_id
+    group by a.name
+    having count(v.id) = 0
+    order by employer_count desc
+    limit 1
+'''
+
+NEW:
+query5_2 = f'''
+    SELECT a.name AS area_name,
+           COUNT(e.id) AS employer_count,
+           COUNT(v.id) AS vacancy_count
+    FROM public.areas a
+    LEFT JOIN public.employers e ON a.id = e.area
+    LEFT JOIN public.vacancies v ON a.id = v.area_id
+    GROUP BY a.name
+    HAVING COUNT(v.id) = 0
+    ORDER BY employer_count DESC
+    LIMIT 1
+'''
+
+--- query5_3 ---
+OLD:
+query5_3 = f'''
+    select e.id as employer_id,
+           e.name as employer_name,
+           count(distinct v.area_id) as region_count
+    from public.employers e
+    left join public.vacancies v on e.id = v.employer_id
+    group by e.id, e.name
+    order by region_count desc
+'''
+
+NEW:
+query5_3 = f'''
+    SELECT e.id AS employer_id,
+           e.name AS employer_name,
+           COUNT(DISTINCT v.area_id) AS region_count
+    FROM public.employers e
+    LEFT JOIN public.vacancies v ON e.id = v.employer_id
+    GROUP BY e.id, e.name
+    ORDER BY region_count DESC
+'''
+
+--- query5_4 ---
+OLD:
+query5_4 = f'''
+    select count(*) as employer_count
+    from public.employers e
+    left join public.employers_industries ei on e.id = ei.employer_id
+    where ei.industry_id is null
+'''
+
+NEW:
+query5_4 = f'''
+    SELECT COUNT(*) AS employer_count
+    FROM public.employers e
+    LEFT JOIN public.employers_industries ei ON e.id = ei.employer_id
+    WHERE ei.industry_id IS NULL
+'''
+
+--- query5_5 ---
+OLD:
+query5_5 = f'''
+    select e.name as employer_name
+    from public.employers e
+    join public.employers_industries ei on e.id = ei.employer_id
+    group by e.id, e.name
+    having count(ei.industry_id) = 4
+    order by e.name
+    limit 1 offset 2
+'''
+
+NEW:
+query5_5 = f'''
+    SELECT e.name AS employer_name
+    FROM public.employers e
+    JOIN public.employers_industries ei ON e.id = ei.employer_id
+    GROUP BY e.id, e.name
+    HAVING COUNT(ei.industry_id) = 4
+    ORDER BY e.name
+    LIMIT 1 OFFSET 2
+'''
+
+--- query5_6 ---
+OLD:
+query5_6 = f'''
+    select count(distinct e.id) as employer_count
+    from public.employers e
+    join public.employers_industries ei on e.id = ei.employer_id
+    where ei.industry_id = (
+        select id from public.industries where name = 'Разработка программного обеспечения'
+    )
+'''
+
+NEW:
+query5_6 = f'''
+    SELECT COUNT(DISTINCT e.id) AS employer_count
+    FROM public.employers e
+    JOIN public.employers_industries ei ON e.id = ei.employer_id
+    WHERE ei.industry_id = (
+        SELECT id FROM public.industries WHERE name = 'Разработка программного обеспечения'
+    )
+'''
+
+--- query5_7 ---
+OLD:
+query5_7 = f'''
+    select a.name as area_name,
+           count(v.id) as vacancy_count
+    from public.vacancies v
+    join public.areas a on v.area_id = a.id
+    where v.employer_id = (select id from public.employers where name = 'Яндекс')
+      and a.name in ('Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань', 'Нижний Новгород', 'Челябинск', 'Самара', 'Омск', 'Ростов-на-Дону', 'Уфа', 'Красноярск', 'Краснодар','Воронеж', 'Пермь', 'Волгоград')
+    group by a.id, a.name
+    union all
+    select 'Total' as area_name,
+           count(v.id) as vacancy_count
+    from public.vacancies v
+    where v.employer_id = (select id from public.employers where name = 'Яндекс')
+'''
+
+NEW:
+query5_7 = f'''
+    SELECT a.name AS area_name,
+           COUNT(v.id) AS vacancy_count
+    FROM public.vacancies v
+    JOIN public.areas a ON v.area_id = a.id
+    WHERE v.employer_id = (SELECT id FROM public.employers WHERE name = 'Яндекс')
+      AND a.name IN ('Москва', 'Санкт-Петербург', 'Новосибирск', 'Екатеринбург', 'Казань', 'Нижний Новгород', 'Челябинск', 'Самара', 'Омск', 'Ростов-на-Дону', 'Уфа', 'Красноярск', 'Краснодар','Воронеж', 'Пермь', 'Волгоград')
+    GROUP BY a.id, a.name
+    UNION ALL
+    SELECT 'Total' AS area_name,
+           COUNT(v.id) AS vacancy_count
+    FROM public.vacancies v
+    WHERE v.employer_id = (SELECT id FROM public.employers WHERE name = 'Яндекс')
+'''
+
+--- query6_1 ---
+OLD:
+query6_1 = f'''
+    select count(*) as vacancy_count
+    from public.vacancies
+    where lower(name) like '%data%' or lower(name) like '%данн%'
+'''
+
+NEW:
+query6_1 = f'''
+    SELECT COUNT(*) AS vacancy_count
+    FROM public.vacancies
+    WHERE LOWER(name) LIKE '%data%' OR LOWER(name) LIKE '%данн%'
+'''
+
+--- query6_2 ---
+OLD:
+query6_2 = f'''
+select
+    v.name as data_science_vacancy,
+    count(v.id) as number_of_vacancies
+from public.vacancies v
+where (
+    lower(v.name) like '%data scientist%' or
+    lower(v.name) like '%data science%' or
+    lower(v.name) like '%исследователь данных%' or
+    (lower(v.name) like '%ml%' and lower(v.name) not like '%html%') or
+    lower(v.name) like '%machine learning%' or
+    (lower(v.name) like '%машинн%' and lower(v.name) like '%обучен%')
+)
+and (
+    lower(v.name) like '%junior%' or
+    lower(v.experience) like '%нет опыта%' or
+    lower(v.employment) like '%стажировка%'
+)
+group by v.name
+
+union all
+
+select
+    'total' as data_science_vacancy,
+    count(v.id) as number_of_vacancies
+from public.vacancies v
+where (
+    lower(v.name) like '%data scientist%' or
+    lower(v.name) like '%data science%' or
+    lower(v.name) like '%исследователь данных%' or
+    (lower(v.name) like '%ml%' and lower(v.name) not like '%html%') or
+    lower(v.name) like '%machine learning%' or
+    (lower(v.name) like '%машинн%' and lower(v.name) like '%обучен%')
+)
+and (
+    lower(v.name) like '%junior%' or
+    lower(v.experience) like '%нет опыта%' or
+    lower(v.employment) like '%стажировка%'
+)
+
+'''
+
+NEW:
+query6_2 = f'''
+SELECT
+    v.name AS data_science_vacancy,
+    COUNT(v.id) AS number_of_vacancies
+FROM public.vacancies v
+WHERE (
+    LOWER(v.name) LIKE '%data scientist%' OR
+    LOWER(v.name) LIKE '%data science%' OR
+    LOWER(v.name) LIKE '%исследователь данных%' OR
+    (LOWER(v.name) LIKE '%ml%' AND LOWER(v.name) NOT LIKE '%html%') OR
+    LOWER(v.name) LIKE '%machine learning%' OR
+    (LOWER(v.name) LIKE '%машинн%' AND LOWER(v.name) LIKE '%обучен%')
+)
+AND (
+    LOWER(v.name) LIKE '%junior%' OR
+    LOWER(v.experience) LIKE '%нет опыта%' OR
+    LOWER(v.employment) LIKE '%стажировка%'
+)
+GROUP BY v.name
+
+UNION ALL
+
+SELECT
+    'total' AS data_science_vacancy,
+    COUNT(v.id) AS number_of_vacancies
+FROM public.vacancies v
+WHERE (
+    LOWER(v.name) LIKE '%data scientist%' OR
+    LOWER(v.name) LIKE '%data science%' OR
+    LOWER(v.name) LIKE '%исследователь данных%' OR
+    (LOWER(v.name) LIKE '%ml%' AND LOWER(v.name) NOT LIKE '%html%') OR
+    LOWER(v.name) LIKE '%machine learning%' OR
+    (LOWER(v.name) LIKE '%машинн%' AND LOWER(v.name) LIKE '%обучен%')
+)
+AND (
+    LOWER(v.name) LIKE '%junior%' OR
+    LOWER(v.experience) LIKE '%нет опыта%' OR
+    LOWER(v.employment) LIKE '%стажировка%'
+)
+
+'''
+
+--- query6_2_2 ---
+OLD:
+query6_2_2 = f'''with filtered_vacancies as (
+    select v.name, v.id
+    from public.vacancies v
+    where (
+        lower(v.name) like '%data scientist%' or
+        lower(v.name) like '%data science%' or
+        lower(v.name) like '%исследователь данных%' or
+        (lower(v.name) like '%ml%' and lower(v.name) not like '%html%') or
+        lower(v.name) like '%machine learning%' or
+        lower(v.name) like '%машинн%обучен%'
+    )
+    and (
+        lower(v.name) like '%junior%' or
+        lower(v.experience) like '%нет опыта%' or
+        lower(v.employment) like '%стажировка%'
+    )
+)
+
+select
+    name as data_science_vacancy,
+    count(id) as junior_number_of_vacancies
+from filtered_vacancies
+group by name
+
+union all
+
+select
+    'total' as data_science_vacancy,
+    count(id) as junior_number_of_vacancies
+from filtered_vacancies;
+'''
+
+NEW:
+query6_2_2 = f'''WITH filtered_vacancies AS (
+    SELECT v.name, v.id
+    FROM public.vacancies v
+    WHERE (
+        LOWER(v.name) LIKE '%data scientist%' OR
+        LOWER(v.name) LIKE '%data science%' OR
+        LOWER(v.name) LIKE '%исследователь данных%' OR
+        (LOWER(v.name) LIKE '%ml%' AND LOWER(v.name) NOT LIKE '%html%') OR
+        LOWER(v.name) LIKE '%machine learning%' OR
+        LOWER(v.name) LIKE '%машинн%обучен%'
+    )
+    AND (
+        LOWER(v.name) LIKE '%junior%' OR
+        LOWER(v.experience) LIKE '%нет опыта%' OR
+        LOWER(v.employment) LIKE '%стажировка%'
+    )
+)
+
+SELECT
+    name AS data_science_vacancy,
+    COUNT(id) AS junior_number_of_vacancies
+FROM filtered_vacancies
+GROUP BY name
+
+UNION ALL
+
+SELECT
+    'total' AS data_science_vacancy,
+    COUNT(id) AS junior_number_of_vacancies
+FROM filtered_vacancies;
+'''
+
+--- query6_3 ---
+OLD:
+query6_3 = f'''with filtered_vacancies as (
+    select v.name, v.id, v.key_skills
+    from public.vacancies v
+    where (
+        lower(v.name) like '%data scientist%' or
+        lower(v.name) like '%data science%' or
+        lower(v.name) like '%исследователь данных%' or
+        (lower(v.name) like '%ml%' and lower(v.name) not like '%html%') or
+        lower(v.name) like '%machine learning%' or
+        (lower(v.name) like '%машинн%' and lower(v.name) like '%обучен%')
+    )
+)
+
+select
+    name as data_science_vacancy,
+    count(id) as number_of_vacancies_with_sql_or_postgres
+from filtered_vacancies
+where lower(key_skills) like '%sql%' or lower(key_skills) like '%postgres%'
+group by name
+
+union all
+
+select
+    'total' as data_science_vacancy,
+    count(id) as number_of_vacancies_with_sql_or_postgres
+from filtered_vacancies
+where lower(key_skills) like '%sql%' or lower(key_skills) like '%postgres%';
+'''
+
+NEW:
+query6_3 = f'''WITH filtered_vacancies AS (
+    SELECT v.name, v.id, v.key_skills
+    FROM public.vacancies v
+    WHERE (
+        LOWER(v.name) LIKE '%data scientist%' OR
+        LOWER(v.name) LIKE '%data science%' OR
+        LOWER(v.name) LIKE '%исследователь данных%' OR
+        (LOWER(v.name) LIKE '%ml%' AND LOWER(v.name) NOT LIKE '%html%') OR
+        LOWER(v.name) LIKE '%machine learning%' OR
+        (LOWER(v.name) LIKE '%машинн%' AND LOWER(v.name) LIKE '%обучен%')
+    )
+)
+
+SELECT
+    name AS data_science_vacancy,
+    COUNT(id) AS number_of_vacancies_with_sql_or_postgres
+FROM filtered_vacancies
+WHERE LOWER(key_skills) LIKE '%sql%' OR LOWER(key_skills) LIKE '%postgres%'
+GROUP BY name
+
+UNION ALL
+
+SELECT
+    'total' AS data_science_vacancy,
+    COUNT(id) AS number_of_vacancies_with_sql_or_postgres
+FROM filtered_vacancies
+WHERE LOWER(key_skills) LIKE '%sql%' OR LOWER(key_skills) LIKE '%postgres%';
+'''
+
+--- query6_4 ---
+OLD:
+query6_4 = f'''with filtered_vacancies as (
+    select v.name, v.id, v.key_skills
+    from public.vacancies v
+    where (
+        lower(v.name) like '%data scientist%' or
+        lower(v.name) like '%data science%' or
+        lower(v.name) like '%исследователь данных%' or
+        (lower(v.name) like '%ml%' and lower(v.name) not like '%html%') or
+        lower(v.name) like '%machine learning%' or
+        (lower(v.name) like '%машинн%' and lower(v.name) like '%обучен%')
+    )
+)
+
+select
+    name as data_science_vacancy,
+    count(id) as number_of_vacancies_with_python
+from filtered_vacancies
+where lower(key_skills) like '%python%'
+group by name
+
+union all
+
+select
+    'total' as data_science_vacancy,
+    count(id) as number_of_vacancies_with_python
+from filtered_vacancies
+where lower(key_skills) like '%python%';
+'''
+
+NEW:
+query6_4 = f'''WITH filtered_vacancies AS (
+    SELECT v.name, v.id, v.key_skills
+    FROM public.vacancies v
+    WHERE (
+        LOWER(v.name) LIKE '%data scientist%' OR
+        LOWER(v.name) LIKE '%data science%' OR
+        LOWER(v.name) LIKE '%исследователь данных%' OR
+        (LOWER(v.name) LIKE '%ml%' AND LOWER(v.name) NOT LIKE '%html%') OR
+        LOWER(v.name) LIKE '%machine learning%' OR
+        (LOWER(v.name) LIKE '%машинн%' AND LOWER(v.name) LIKE '%обучен%')
+    )
+)
+
+SELECT
+    name AS data_science_vacancy,
+    COUNT(id) AS number_of_vacancies_with_python
+FROM filtered_vacancies
+WHERE LOWER(key_skills) LIKE '%python%'
+GROUP BY name
+
+UNION ALL
+
+SELECT
+    'total' AS data_science_vacancy,
+    COUNT(id) AS number_of_vacancies_with_python
+FROM filtered_vacancies
+WHERE LOWER(key_skills) LIKE '%python%';
+'''
+
+--- query6_5 ---
+OLD:
+query6_5 = f'''with filtered_vacancies as (
+    select 
+        v.name, 
+        v.id, 
+        v.key_skills,
+        (
+            length(lower(v.key_skills)) - length(replace(lower(v.key_skills), chr(9), '')) + 1
+        ) as key_skills_count
+    from public.vacancies v
+    where (
+        lower(v.name) like '%data scientist%' or
+        lower(v.name) like '%data science%' or
+        lower(v.name) like '%исследователь данных%' or
+        (lower(v.name) like '%ml%' and lower(v.name) not like '%html%') or
+        lower(v.name) like '%machine learning%' or
+        (lower(v.name) like '%машинн%' and lower(v.name) like '%обучен%')
+    )
+    and v.key_skills is not null
+
+)
+
+select 
+    name as data_science_vacancy,
+    key_skills,
+    key_skills_count
+from filtered_vacancies
+
+
+union all
+
+select 
+    'average_number_of_key_skills' as data_science_vacancy,
+    null as key_skills,
+    round(avg(fv.key_skills_count), 2) as key_skills_count
+from filtered_vacancies fv;
+'''
+
+NEW:
+query6_5 = f'''WITH filtered_vacancies AS (
+    SELECT 
+        v.name, 
+        v.id, 
+        v.key_skills,
+        (
+            length(lower(v.key_skills)) - length(replace(lower(v.key_skills), CHR(9), '')) + 1
+        ) AS key_skills_count
+    FROM public.vacancies v
+    WHERE (
+        LOWER(v.name) LIKE '%data scientist%' OR
+        LOWER(v.name) LIKE '%data science%' OR
+        LOWER(v.name) LIKE '%исследователь данных%' OR
+        (LOWER(v.name) LIKE '%ml%' AND LOWER(v.name) NOT LIKE '%html%') OR
+        LOWER(v.name) LIKE '%machine learning%' OR
+        (LOWER(v.name) LIKE '%машинн%' AND LOWER(v.name) LIKE '%обучен%')
+    )
+    AND v.key_skills IS NOT NULL
+
+)
+
+SELECT 
+    name AS data_science_vacancy,
+    key_skills,
+    key_skills_count
+FROM filtered_vacancies
+
+
+UNION ALL
+
+SELECT 
+    'average_number_of_key_skills' AS data_science_vacancy,
+    NULL AS key_skills,
+    ROUND(AVG(fv.key_skills_count), 2) AS key_skills_count
+FROM filtered_vacancies fv;
+'''
+
+--- query6_6 ---
+OLD:
+query6_6 = f'''
+with filtered_vacancies as (
+    select 
+        v.experience,
+        case
+            when v.salary_from is not null and v.salary_to is not null then (v.salary_from + v.salary_to) / 2
+            when v.salary_from is not null then v.salary_from
+            when v.salary_to is not null then v.salary_to
+        end as salary
+    from public.vacancies v
+    where (
+        lower(v.name) like '%data scientist%' or
+        lower(v.name) like '%data science%' or
+        lower(v.name) like '%исследователь данных%' or
+        (lower(v.name) like '%ml%' and lower(v.name) not like '%html%') or
+        lower(v.name) like '%machine learning%' or
+        (lower(v.name) like '%машинн%' and lower(v.name) like '%обучен%')
+    )
+    and (v.salary_from is not null or v.salary_to is not null)
+)
+
+select
+    fv.experience,
+    round(avg(fv.salary)) as avg_salary_requested
+from filtered_vacancies fv
+group by fv.experience;
+'''
+
+NEW:
+query6_6 = f'''
+WITH filtered_vacancies AS (
+    SELECT 
+        v.experience,
+        CASE
+            WHEN v.salary_from IS NOT NULL AND v.salary_to IS NOT NULL THEN (v.salary_from + v.salary_to) / 2
+            WHEN v.salary_from IS NOT NULL THEN v.salary_from
+            WHEN v.salary_to IS NOT NULL THEN v.salary_to
+        END AS salary
+    FROM public.vacancies v
+    WHERE (
+        LOWER(v.name) LIKE '%data scientist%' OR
+        LOWER(v.name) LIKE '%data science%' OR
+        LOWER(v.name) LIKE '%исследователь данных%' OR
+        (LOWER(v.name) LIKE '%ml%' AND LOWER(v.name) NOT LIKE '%html%') OR
+        LOWER(v.name) LIKE '%machine learning%' OR
+        (LOWER(v.name) LIKE '%машинн%' AND LOWER(v.name) LIKE '%обучен%')
+    )
+    AND (v.salary_from IS NOT NULL OR v.salary_to IS NOT NULL)
+)
+
+SELECT
+    fv.experience,
+    ROUND(AVG(fv.salary)) AS avg_salary_requested
+FROM filtered_vacancies fv
+GROUP BY fv.experience;
+'''
+
+End of diff.
