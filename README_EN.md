@@ -7,12 +7,12 @@ The repository includes SQL queries, Python-based data processing, and environme
 
 ## 📁 Project Structure
 
-- **PROJECT_2_Анализ_вакансий_из_HeadHunter.ipynb** — main notebook with analysis  
-- **PROJECT_2_Анализ_вакансий_из_HeadHunter_Test.ipynb** — test notebook  
+- **Python_and_SQL.ipynb** — main notebook with SQL queries executed via Python
+- **PROJECT_2_Анализ_вакансий_из_HeadHunter.ipynb** — test notebook  
 - **Python_and_SQL.ipynb** — SQL queries executed via Python  
-- **Python_and_SQL_Commented.ipynb** — annotated version of SQL logic  
-- **SQL_uppercase_diff.txt** — SQL formatting comparison  
-- **environment.yml** — Conda environment file for reproducibility  
+- **Python_and_SQL_Commented.ipynb** — draft annotated version of SQL logic  
+- **SQL_uppercase_diff.txt** — SQL formatting comparison created by Copilot  
+- **environment.yml** — Conda environment file for reproducibility 
 
 ---
 
