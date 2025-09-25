@@ -1,95 +1,79 @@
 name: Conda_SkillsFactory
 channels:
   - anaconda
+  - conda-forge
   - defaults
 dependencies:
-  - blas=1.0=mkl
-  - bottleneck=1.4.2=py313h2cb717b_0
-  - brotli-python=1.0.9=py313h5da7b33_9
-  - bzip2=1.0.8=h2bbff1b_6
-  - ca-certificates=2025.7.15=haa95532_0
-  - contourpy=1.3.1=py313h214f63a_0
-  - cycler=0.11.0=pyhd3eb1b0_0
-  - expat=2.7.1=h8ddb27b_0
-  - fonttools=4.55.3=py313h827c3e9_0
-  - freeglut=3.4.0=h8a1e904_1
-  - freetype=2.13.3=h0620614_0
-  - icc_rt=2022.1.0=h6049295_2
-  - intel-openmp=2023.1.0=h59b6b97_46320
-  - joblib=1.4.2=py313haa95532_0
-  - jpeg=9e=h827c3e9_3
-  - kiwisolver=1.4.8=py313h5da7b33_0
-  - lcms2=2.16=h62be587_1
-  - lerc=4.0.0=h5da7b33_0
-  - libdeflate=1.22=h5bf469e_0
-  - libffi=3.4.4=hd77b12b_1
-  - libiconv=1.16=h2bbff1b_3
-  - libkrb5=1.21.3=h885b0b7_4
-  - libmpdec=4.0.0=h827c3e9_0
-  - libpng=1.6.39=h8cc25b3_0
-  - libpq=17.4=h4a159e6_2
-  - libtiff=4.7.0=h404307b_0
-  - libwebp-base=1.3.2=h3d04722_1
-  - libxml2=2.13.8=h866ff63_0
-  - libxslt=1.1.41=h0739af5_0
-  - lxml=5.3.0=py313h395c83e_1
-  - lz4-c=1.9.4=h2bbff1b_1
-  - matplotlib-base=3.10.0=py313h7aa5d4e_1
-  - mkl=2023.1.0=h6b88ed4_46358
-  - mkl-service=2.4.0=py313h827c3e9_2
-  - mkl_fft=1.3.11=py313h827c3e9_0
-  - mkl_random=1.2.8=py313hce38976_0
-  - numexpr=2.10.1=py313h4cd664f_0
-  - numpy=2.3.1=py313ha127e54_0
-  - numpy-base=2.3.1=py313haaa8b43_0
-  - openjpeg=2.5.2=h9b5d1b5_1
-  - openssl=3.0.17=h35632f6_0
-  - packaging=24.2=py313haa95532_0
-  - pandas=2.2.3=py313h5da7b33_0
-  - patsy=1.0.1=py313haa95532_0
-  - pillow=11.1.0=py313hea0d53e_1
-  - psycopg2=2.9.10=py313h827c3e9_0
-  - pyparsing=3.2.0=py313haa95532_0
-  - python=3.13.5=h286a616_100_cp313
-  - python-dateutil=2.9.0post0=py313haa95532_2
-  - python-tzdata=2025.2=pyhd3eb1b0_0
-  - python_abi=3.13=0_cp313
-  - pytz=2025.2=py313haa95532_0
-  - scipy=1.16.0=py313h242c13b_0
-  - seaborn=0.13.2=py313haa95532_3
-  - setuptools=72.1.0=py313haa95532_0
-  - six=1.17.0=py313haa95532_0
-  - sqlite=3.45.3=h2bbff1b_0
-  - statsmodels=0.14.5=py313h2cb717b_0
-  - tbb=2021.8.0=h59b6b97_0
-  - tk=8.6.14=h5e9d12e_1
-  - tzdata=2025b=h04d1e81_0
-  - ucrt=10.0.22621.0=haa95532_0
-  - vc=14.42=haa95532_5
-  - vc14_runtime=14.44.35208=h4927774_10
-  - vs2015_runtime=14.44.35208=ha6b5a95_10
-  - wheel=0.45.1=py313haa95532_0
-  - xmltodict=0.14.2=py313haa95532_0
-  - xz=5.6.4=h4754444_1
-  - zlib=1.2.13=h8cc25b3_1
-  - zstd=1.5.6=h8880b57_0
+  # Core Python & environment
+  - python=3.13.5
+  - pip
+  - setuptools
+  - wheel
+
+  # Data manipulation & analysis
+  - pandas=2.2.3
+  - numpy=2.3.1
+  - scipy=1.16.0
+  - bottleneck
+  - numexpr
+  - statsmodels
+  - patsy
+
+  # Visualization
+  - matplotlib-base
+  - seaborn
+  - plotly  # via pip: kaleido for export
+  - adjusttext
+
+  # Graph/network analysis
+  - networkx
+  - python-louvain
+
+  # SQL & DB connectivity
+  - sqlalchemy
+  - psycopg2
+  - sqlite
+
+  # Jupyter & IPython
+  - ipython
+  - jupyter_core
+  - matplotlib-inline
+  - prompt-toolkit
+  - traitlets
+  - pygments
+
+  # Parsing & formatting
+  - xmltodict
+  - lxml
+  - orjson
+  - simplejson
+  - python-dateutil
+  - pytz
+  - python-tzdata
+
+  # Environment & styling
+  - jupyterthemes
+  - lesscpy
+  - colorama
+
+  # System & compression
+  - zlib
+  - xz
+  - bzip2
+  - lz4-c
+  - libdeflate
+  - openssl
+  - ca-certificates
+
+  # Optional: remove low-level system packages unless needed
+  # (e.g. libpng, libtiff, libxml2, vc14_runtime, etc.)
+
+  # Pip-only packages
   - pip:
-      - certifi==2025.7.14
-      - cffi==1.17.1
-      - h11==0.16.0
-      - outcome==1.3.0.post0
-      - pip==25.2
-      - pycparser==2.22
-      - pysocks==1.7.1
-      - python-dotenv==1.1.1
-      - selenium==4.34.2
-      - sniffio==1.3.1
-      - sortedcontainers==2.4.0
-      - trio==0.30.0
-      - trio-websocket==0.12.2
-      - tvdatafeed==2.1.0
-      - typing-extensions==4.14.1
-      - urllib3==2.5.0
-      - websocket-client==1.8.0
-      - wsproto==1.2.0
-prefix: C:\Users\ekash\anaconda3\envs\Conda_SkillsFactory
+      - kaleido
+      - pyvis
+      - selenium
+      - pytest
+      - pytest-timeout
+      - python-dotenv
+      - tvdatafeed
