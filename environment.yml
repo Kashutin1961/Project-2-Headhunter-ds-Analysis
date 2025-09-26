@@ -42,7 +42,7 @@ dependencies:
   - traitlets
   - pygments
 
-  # Parsing & formatting
+# Parsing & formatting
   - xmltodict
   - lxml
   - orjson
@@ -50,6 +50,8 @@ dependencies:
   - python-dateutil
   - pytz
   - python-tzdata
+  - html5lib
+  - beautifulsoup4
 
   # Environment & styling
   - jupyterthemes
